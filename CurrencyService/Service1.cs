@@ -29,37 +29,51 @@ namespace CurrencyService
             InitializeComponent();
         }
 
+
+
         protected override void OnStart(string[] args)
         {
-            Debugger.Launch();        
+            Debugger.Launch();
 
-            TimeSpan interval = new TimeSpan(Convert.ToInt64(ConfigurationManager.AppSettings["interval"]));
 
-            string format = ConfigurationManager.AppSettings["format"];
-            string fileName = ConfigurationManager.AppSettings["filename"];
-            string baseUrl = ConfigurationManager.AppSettings["url"];
+            GetConfiguration(out string format,
+                             out string fileName,
+                             out string baseUrl,
+                             out string directoryName,
+                             out TimeSpan interval);
 
-            Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Test"));
-            using (var writer = new StreamWriter(
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName + "." + format), false, Encoding.UTF8))
+            var directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, directoryName);
+
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
+
+            
+
+  
+            Task.Run(async () =>
             {
-                writer.Write(baseUrl + format);
-            }
+                if (!Directory.Exists(directoryPath))
+                    Directory.CreateDirectory(directoryPath);
 
-            //File.WriteAllText($@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\test.txt", baseUrl + format);
-            //Task.Run(async () =>
-            //{
-            //    using (HttpClient client = new HttpClient())
-            //    {
-            //        while(!_canceled)
-            //        {
-            //            var body = await GetCurrencies(client, baseUrl , "json");
+                //using (var writer = new StreamWriter(
+                //    Path.Combine(directoryCreate, fileName + "." + format), false, Encoding.UTF8))
+                //{
+                //    writer.Write(baseUrl + format);
+                //}
+                DateTime date;
+                using (HttpClient client = new HttpClient())
+                {
+                    while (!_canceled)
+                    {
+                        var body = await GetCurrencies(client, baseUrl, "json");
 
-     
-            //            await Task.Delay(interval);
-            //        }              
-            //    }
-            //});
+                        date = DateTime.Now.Date;
+                        if (!Directory.Exists(Path.Combine(directoryPath, $"{fileName}_{date.ToString("dd_MM_yyyy")}")))
+
+                        await Task.Delay(interval);
+                    }
+                }
+            });
         }
 
         private async Task<string> GetCurrencies(HttpClient httpClient, string baseUrl, string format)
@@ -130,6 +144,18 @@ namespace CurrencyService
                     }
                 }
             }
+        }
+        private void GetConfiguration(out string format,
+                                      out string fileName,
+                                      out string baseUrl,
+                                      out string directoryName,
+                                      out TimeSpan interval)
+        {
+            format = ConfigurationManager.AppSettings["format"];
+            fileName = ConfigurationManager.AppSettings["filename"];
+            directoryName = ConfigurationManager.AppSettings["dirname"];
+            baseUrl = ConfigurationManager.AppSettings["url"];
+            interval = new TimeSpan(Convert.ToInt64(ConfigurationManager.AppSettings["interval"]));
         }
 
         protected override void OnStop()

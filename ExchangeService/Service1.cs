@@ -53,6 +53,9 @@ namespace CurrencyService
         }
 
 
+
+
+
         private void GetConfiguration(out string format,
                                       out string fileName,
                                       out string baseUrl,

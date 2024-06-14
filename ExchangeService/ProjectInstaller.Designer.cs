@@ -40,8 +40,8 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.DisplayName = "Currency Service";
-            this.serviceInstaller1.ServiceName = "CurrencyService";
+            this.serviceInstaller1.DisplayName = "Exchange Service";
+            this.serviceInstaller1.ServiceName = "ExchangeService";
             // 
             // ProjectInstaller
             // 

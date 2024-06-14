@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -27,7 +28,7 @@ namespace CurrencyService
 
         }
 
-        public async Task Run(string baseUrl, string fileName, string format, int interval)
+        public async Task Run(string baseUrl, string fileName, string format, int interval, CancellationToken token)
         {
             CheckDirectory(_directoryPath);
 
@@ -55,7 +56,7 @@ namespace CurrencyService
 
                     await Task.Delay(interval);
                 }
-            });
+            }, token);
         }
 
         private async Task<string> GetCurrencies(string baseUrl, string format)

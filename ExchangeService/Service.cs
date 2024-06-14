@@ -1,8 +1,4 @@
-﻿using CsvHelper;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Configuration;
+﻿using System;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -10,23 +6,23 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using CsvHelper;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
-
-
-namespace CurrencyService
+namespace ExchangeService
 {
     public class Service
     {
         private string _directoryPath;
         private readonly ILogger<Service> _logger;
         private readonly HttpClient _httpClient;
+
         public Service(ILogger<Service> logger, string path)
         {
-
             _logger = logger;
             _httpClient = new HttpClient();
             _directoryPath = path;
-
         }
 
         public async Task Run(string baseUrl, string fileName, string format, int interval, CancellationToken token)
@@ -42,7 +38,8 @@ namespace CurrencyService
                 {
                     date = DateTime.Now;
 
-                    if (string.IsNullOrWhiteSpace(directoryPathNow) || !directoryPathNow.Contains(date.ToString("dd_MM_yyyy")))
+                    if (string.IsNullOrWhiteSpace(directoryPathNow) ||
+                        !directoryPathNow.Contains(date.ToString("dd_MM_yyyy")))
                         directoryPathNow = Path.Combine(_directoryPath, $"{fileName}_{date.ToString("dd_MM_yyyy")}");
 
                     CheckDirectory(directoryPathNow);
@@ -51,7 +48,7 @@ namespace CurrencyService
 
                     WriteToFile(
                         currencyRate,
-                    directoryPathNow,
+                        directoryPathNow,
                         string.Join("_", fileName, date.ToString("dd_MM_yyyy_HH-mm")),
                         format);
 
@@ -98,7 +95,6 @@ namespace CurrencyService
                 WriteToCsvFile(jsonContent, directory, file, directory);
             else
             {
-
                 var path = Path.Combine(directory, file);
                 try
                 {
@@ -113,10 +109,7 @@ namespace CurrencyService
                     _logger.LogError(e.Message);
                     throw;
                 }
-
-
             }
-
         }
 
         public void WriteToCsvFile(string jsonContent, string directory, string file, string format)
@@ -126,16 +119,15 @@ namespace CurrencyService
             var dt = JsonConvert.DeserializeObject<DataTable>(jsonContent);
             try
             {
-
                 using (var writer = new StreamWriter(Path.Combine(directory, file), false, Encoding.UTF8))
                 {
                     using (var csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
                     {
-
                         foreach (DataColumn column in dt.Columns)
                         {
                             csv.WriteField(column.ColumnName);
                         }
+
                         csv.NextRecord();
 
                         foreach (DataRow row in dt.Rows)
@@ -144,6 +136,7 @@ namespace CurrencyService
                             {
                                 csv.WriteField(row[i]);
                             }
+
                             csv.NextRecord();
                         }
                     }
@@ -151,18 +144,15 @@ namespace CurrencyService
             }
             catch (Exception e)
             {
-
-
             }
-
-
         }
+
         private static void GetConfiguration(out string format,
-                                      out string fileName,
-                                      out string baseUrl,
-                                      out string directoryName,
-                                      out string directoryPath,
-                                      out TimeSpan interval)
+            out string fileName,
+            out string baseUrl,
+            out string directoryName,
+            out string directoryPath,
+            out TimeSpan interval)
         {
             format = "json";
             fileName = "curRate";
@@ -171,7 +161,5 @@ namespace CurrencyService
             baseUrl = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?";
             interval = new TimeSpan(61000);
         }
-
     }
-
 }

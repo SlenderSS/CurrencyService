@@ -1,18 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
-using Serilog;
-using System;
-using System.Configuration;
-using System.Diagnostics;
+﻿using System.Configuration;
 using System.IO;
 using System.ServiceProcess;
 using System.Threading;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
-namespace CurrencyService
+namespace ExchangeService
 {
     public partial class Service1 : ServiceBase
     {
 
-        private bool _canceled = false;
+
         private CancellationTokenSource _tokenSource;
         public Service1()
         {
@@ -77,7 +75,7 @@ namespace CurrencyService
         protected override void OnStop()
         {
             _tokenSource.Cancel();
-            _canceled = true;
+            
         }
     }
 

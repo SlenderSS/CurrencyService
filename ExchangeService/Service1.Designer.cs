@@ -1,4 +1,4 @@
-﻿namespace CurrencyService
+﻿namespace ExchangeService
 {
     partial class Service1
     {

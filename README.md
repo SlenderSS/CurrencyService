@@ -6,8 +6,9 @@ Bank of Ukraine (NBU) API </p>
 
 ## Used libraries
 
- **CsvHeplers** - A library for reading and writing CSV files. Extremely fast, flexible, and easy to use. Supports reading and writing of custom class objects. CsvHelper provides a simple and intuitive API for working with CSV files. It makes it easy to read and write data in CSV format without unnecessary complexity.
- **Serilog** - diagnostic logging library for .NET applications. It is easy to set up, has a clean API, and runs on all recent .NET platforms. While it's useful even in the simplest applications, Serilog's support for structured logging shines when instrumenting complex, distributed, and asynchronous applications and systems.
+ <p>**CsvHeplers** - A library for reading and writing CSV files. Extremely fast, flexible, and easy to use. Supports reading and writing of custom class objects. CsvHelper provides a simple and intuitive API for working with CSV files. It makes it easy to read and write data in CSV format without unnecessary complexity.</p>
+ <p>**Serilog** - diagnostic logging library for .NET applications. It is easy to set up, has a clean API, and runs on all recent .NET platforms. While it's useful even in the simplest applications, Serilog's support for structured logging shines when instrumenting complex, distributed, and asynchronous applications and systems.</p>
+    
 ## How it work`s
 
 <p>The service receives the exchange rate and saves it in a file with the format specified in the configuration file (json, xml, or csv). This is done at the specified interval. Files are saved to the specified directory and for each new day a new directory is created with the date of creation, and during the day all files will be saved to this directory. The files will have the names specified in the configuration file + date and time of data acquisition. When changing the day, a new directory is created and the following files will be saved to the new one.</p>

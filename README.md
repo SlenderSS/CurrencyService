@@ -6,8 +6,8 @@ Bank of Ukraine (NBU) API </p>
 
 ## Used libraries
 
- <p>**CsvHeplers** - A library for reading and writing CSV files. Extremely fast, flexible, and easy to use. Supports reading and writing of custom class objects. CsvHelper provides a simple and intuitive API for working with CSV files. It makes it easy to read and write data in CSV format without unnecessary complexity.</p>
- <p>**Serilog** - diagnostic logging library for .NET applications. It is easy to set up, has a clean API, and runs on all recent .NET platforms. While it's useful even in the simplest applications, Serilog's support for structured logging shines when instrumenting complex, distributed, and asynchronous applications and systems.</p>
+ <p> **CsvHeplers** - A library for reading and writing CSV files. Extremely fast, flexible, and easy to use. Supports reading and writing of custom class objects. CsvHelper provides a simple and intuitive API for working with CSV files. It makes it easy to read and write data in CSV format without unnecessary complexity.</p>
+ <p> **Serilog** - diagnostic logging library for .NET applications. It is easy to set up, has a clean API, and runs on all recent .NET platforms. While it's useful even in the simplest applications, Serilog's support for structured logging shines when instrumenting complex, distributed, and asynchronous applications and systems.</p>
     
 ## How it work`s
 
